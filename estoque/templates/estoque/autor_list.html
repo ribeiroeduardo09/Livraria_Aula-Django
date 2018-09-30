@@ -1,0 +1,63 @@
+{% extends 'estoque/base.html' %}
+
+{% block content %}
+
+<form id="autor-form" action="{% url 'autor-create' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="button primary">Submit</button>
+</form>
+
+<div id="autores-table">
+  <table class="striped">
+    <caption>{{ page_info_plural }}</caption>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Idade</th>
+        <th>Remover</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for obj in object_list %}
+      <tr>
+        <td>
+          <a href="{% url 'autor-update' obj.pk %}">{{ obj.nome }}</a>
+        </td>
+        <td>{{ obj.idade }}</td>
+        <td>
+          <a class="button error" href="{% url 'generic-delete' obj.pk 'estoque' 'Autor' %}?success_url={% url 'autor-list' %}">
+            Remover
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}
+{% block js %}
+<script type="text/javascript">
+  $('#autor-form').submit(function(event){
+    event.preventDefault();
+
+    var form = $(this);
+    $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        dataType: 'json',
+        method: 'POST',
+        success: function (data) {
+          if ('errors' in data) {
+            alert('ERRO');
+          } else {
+            $("#autores-table").load( "{% url 'autor-list' %} #autores-table" );
+            alert('Cadastrado om sucesso');
+            form.trigger("reset");
+          }
+        }
+      });
+  });
+</script>
+{% endblock js %}

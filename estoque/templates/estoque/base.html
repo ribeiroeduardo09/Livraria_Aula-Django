@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Livraria</title>
+        <link rel="stylesheet" href="https://unpkg.com/chota@latest">
+    </head>
+    <body>
+        <div class="container">
+            <div class="hero is-full-screen">
+                <h1 class="is-text-center">{{ page_info }}</h1>
+                <nav class="tabs is-center">
+                    <a href="/">Início</a>
+                    <a href="{% url 'autor-list' %}">Autores</a>
+                    <a href="{% url 'livro-list' %}">Livros</a>
+                    <a href="#">Editoras</a>
+                    <a href="#">Lojas</a>
+                </nav>
+                {% block content %}
+                    Corpo do HTML
+                {% endblock content %}
+            </div>
+        </div>
+        <footer class="is-text-center">
+          <p>Rodapé 1</p>
+          <p>Rodapé 2</p>
+        </footer>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    {% block js %}
+    {% endblock js %}
+    </body>
+</html>
